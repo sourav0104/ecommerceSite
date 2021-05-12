@@ -29,10 +29,9 @@ class Register extends React.Component {
         email: this.state.email,
         password: this.state.password,
       };
-      axios.post("http://localhost:5000/auth/register", user).then(
-        (response) => console.log(response.status === 201)
-     
-      );
+      axios
+        .post("http://localhost:5000/auth/register", user)
+        .then((response) => console.log(response.status === 201));
       this.setState({ redirect: true });
     }
   };
@@ -64,7 +63,7 @@ class Register extends React.Component {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Your Name *"
+                      placeholder="Enter Your Name"
                       name="name"
                       value={this.state.name}
                       onChange={this.change}
@@ -74,34 +73,35 @@ class Register extends React.Component {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Email Id *"
+                      placeholder="Enter Your EmailId"
                       name="email"
                       value={this.state.email}
                       onChange={this.change}
                     />
                   </div>
                 </div>
+
                 <div className="col-md-6">
                   <div className="form-group">
                     <input
                       type="password"
                       className="form-control"
-                      placeholder="Your Password *"
+                      placeholder="Enter Your Password"
                       name="password"
                       value={this.state.password}
                       onChange={this.change}
                     />
                   </div>
+
                   <div className="form-group">
                     <input
                       type="password"
                       className="form-control"
-                      placeholder="Confirm Password *"
+                      placeholder="Confirm Password"
                       name="conformpassword"
                       value={this.state.conformpassword}
                       onChange={this.change}
                     />
-
                     {this.state.conformpassword ===
                     this.state.password ? null : (
                       <p>Password is not Matching</p>

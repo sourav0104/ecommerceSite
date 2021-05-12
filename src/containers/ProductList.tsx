@@ -70,6 +70,7 @@ class ProductList extends React.Component<Props, State> {
             <>
                 <div className={classes.slidermain}>
                     <Slider
+                        
                         max={100000}
                         value={this.state.value}
                         onChange={this.rangeSelector}

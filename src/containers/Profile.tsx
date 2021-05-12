@@ -17,7 +17,17 @@ class Profile extends React.Component<Props, State> {
   render() {
     return (
       <Row>
-        <Column size={12}>User Profile</Column>
+        <h3 className="text-primary">Profile Details</h3>
+        <Column size={4}>
+          <div className="container">
+
+          </div>
+        </Column>
+        <Column size={8}>
+            <div className="container">
+                
+            </div>
+        </Column>
       </Row>
     );
   }
