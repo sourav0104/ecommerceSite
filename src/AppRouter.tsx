@@ -22,7 +22,7 @@ const AppRouter: React.FC = (props) => {
                         <Route path={"/"} component={Demo} exact />
                         <Route path={"/products"} component={ProductList} />
                         <Route path={"/login"} component={Login} />
-                        <PrivateRoute
+                        <Route
                             path={"/profile"}
                             component={LazyProfile}
                         />
@@ -30,7 +30,7 @@ const AppRouter: React.FC = (props) => {
                             path={"/productdetail/:id"}
                             component={ProductDetail}
                         />
-                        <PrivateRoute path={"/cart"} component={Cart} />
+                        <Route path={"/cart"} component={Cart} />
                         <Route path={"/register"} component={Register} />
 
                         {/* 404 Route */}

@@ -10,6 +10,7 @@ import { CartType } from "../types";
 type Props = {
   cartData: any;
 } & RouteComponentProps;
+
 type State = {};
 
 class Cart extends React.Component<Props, State> {
@@ -19,6 +20,7 @@ class Cart extends React.Component<Props, State> {
     const allProductId: any = [];
     let allProductData: any = [];
     const datas = this.props.cartData.cart;
+
     let finalProductdata = datas.map((data: any, index: number, arr: any) => {
       if (allProductId.includes(data.productId) === false) {
         allProductData.push(data);
@@ -62,11 +64,12 @@ class Cart extends React.Component<Props, State> {
         })
       );
     };
+
     let TotalAmount: number = 0;
     return (
       <Row>
         <Column size={8}>
-          <div className="container">
+          <div className="container cart">
             <h1 className="text-primary">Cart Details</h1>
             <table className="table">
               <thead>
@@ -143,6 +146,7 @@ class Cart extends React.Component<Props, State> {
             </button>
           </div>
         </Column>
+
         <Column size={4}>
           <h3 className="totalPrice text-primary">
             Total Price <b>INR {TotalAmount}</b>

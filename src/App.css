@@ -47,11 +47,34 @@
   padding: 10px;
 }
 
-table{
+.cart{
+   background-color: #eee;
+   border-radius: 10px;
+   box-shadow:1px 1px .6px 1px #ccc;
+   margin:4px 2px;
+   padding:10px 20px;
+}
+
+table {
   position: relative;
 }
-.totalPrice{
+
+.totalPrice {
   position: absolute;
-  right:11%;
+  right: 11%;
   top: 20%;
+}
+
+.user{
+  background-color: #eee;
+  padding:2rem 1rem;
+  margin:4rem 1rem;
+  border-radius:10px;
+}
+.order{
+  background-color: #eee;
+  padding:2rem 1rem;
+  margin:2rem 1rem;
+  border-radius:10px;
+  width: 60%;
 }
