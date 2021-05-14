@@ -13,7 +13,7 @@ import LoadingWrapper from "../components/LoadingWrapper";
 import LoadingActions from "../store/actions/LoadingActions";
 import classes from "../components/Filter.module.css";
 import { Slider } from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import ThemeSwitch from "../components/ThemeSwitch";
 
 type Props = {
@@ -38,7 +38,7 @@ class ProductList extends React.Component<Props, State> {
   componentDidMount() {
     this.getData();
   }
-  
+
   async getData() {
     try {
       this.props.showLoader();
@@ -75,7 +75,7 @@ class ProductList extends React.Component<Props, State> {
             onChange={this.rangeSelector}
             valueLabelDisplay="auto"
           />
-          <h5>
+          <h5 className="text-primary">
             {this.state.value[0]}-{this.state.value[1]}
           </h5>
           {/* <select

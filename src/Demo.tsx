@@ -16,31 +16,17 @@ class Demo extends React.Component<{}, State> {
     return (
       <div className="row">
         <Column size={12}>
-          <h1>Demo Componentsss</h1>
-          <p>Some html content</p>
-          {/* {this.state.count > 6 ? <p>Hello from {name.toUpperCase()}</p> : null}
-          <p>{7 + 3}</p> */}
-          {/* <button
-            onClick={() => this.setState({ no: 1 })}
-            className="btn btn-sm btn-primary mx-2"
-          >
-            Change state to 1
-          </button>
-          <button
-            onClick={() => this.setState({ no: 0 })}
-            className="btn btn-sm btn-primary mx-2"
-          >
-            Change state to 0
-          </button>
-          <button
-            className="btn btn-sm btn-primary mx-2"
-            onClick={() =>
-              this.setState((prevState) => ({ count: prevState.count + 1 }))
-            }
-          >
-            Increment count
-          </button> */}
-          
+          <h1>
+            Save upto&nbsp;<del>40%</del>&nbsp;<span className="offer">50%</span>&nbsp;off
+          </h1>
+          <p className="p">
+            <span className="offer1">OFFER</span> that everyone wants
+          </p>
+
+          <img src="../image/img3.jpg" className="img" />
+          <img src="../image/img1.jpg" className="img" />
+          <img src="../image/img2.jpg" className="img" />
+          <img src="../image/img4.jpg" className="img1" />
         </Column>
       </div>
     );

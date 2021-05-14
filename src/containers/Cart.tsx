@@ -8,7 +8,7 @@ import StorageService from "../services/StorageService";
 import { CartType } from "../types";
 
 type Props = {
-  cartData: any;
+  cartDetails: any;
 } & RouteComponentProps;
 
 type State = {};
@@ -19,7 +19,7 @@ class Cart extends React.Component<Props, State> {
   render() {
     const allProductId: any = [];
     let allProductData: any = [];
-    const datas = this.props.cartData.cart;
+    const datas = this.props.cartDetails.cart;
 
     let finalProductdata = datas.map((data: any, index: number, arr: any) => {
       if (allProductId.includes(data.productId) === false) {
@@ -50,16 +50,16 @@ class Cart extends React.Component<Props, State> {
 
     const onSubmit = (e: any) => {
       e.preventDefault();
-      const orderData = allProductData.filter(
+      const orderDetails = allProductData.filter(
         (data: any) => data.productQty >= 1
       );
 
-      const orderDataPass = {
-        products: JSON.stringify(orderData),
+      const orderDetailPass = {
+        products: JSON.stringify(orderDetails),
       };
 
       return StorageService.getData("token").then((token) =>
-        axios.post("http://localhost:5000/order", orderDataPass, {
+        axios.post("http://localhost:5000/order", orderDetailPass, {
           headers: { Authorization: `Bearer ${token}` },
         })
       );
@@ -70,7 +70,7 @@ class Cart extends React.Component<Props, State> {
       <Row>
         <Column size={8}>
           <div className="container cart">
-            <h1 className="text-primary">Cart Details</h1>
+            <h1 className="text-primary shop">Your Shopping Cart</h1>
             <table className="table">
               <thead>
                 <tr>
@@ -141,7 +141,7 @@ class Cart extends React.Component<Props, State> {
             </table>
           </div>
           <div className="container">
-            <button className="btn btn-primary p-3" onClick={onSubmit}>
+            <button className="btn btn-primary p-3 mt-4" onClick={onSubmit}>
               Proceed to Checkout
             </button>
           </div>
@@ -149,7 +149,7 @@ class Cart extends React.Component<Props, State> {
 
         <Column size={4}>
           <h3 className="totalPrice text-primary">
-            Total Price <b>INR {TotalAmount}</b>
+            Total Amount <b>INR {TotalAmount}</b>
           </h3>
         </Column>
       </Row>
@@ -159,7 +159,7 @@ class Cart extends React.Component<Props, State> {
 
 const mapStoreToProps = (store: CartType) => {
   return {
-    cartData: store,
+    cartDetails: store,
   };
 };
 

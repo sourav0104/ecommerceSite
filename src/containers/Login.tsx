@@ -79,7 +79,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                                 Login
                             </button>
                             
-                            <NavLink to={"/register"}>Register</NavLink>
+                            <NavLink to={"/register"} className="navlink">Register</NavLink>
                         </form>
                     </Column>
                 </Row>
