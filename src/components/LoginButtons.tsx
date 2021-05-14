@@ -14,7 +14,7 @@ const LoginButtons: React.FC = (props) => {
     return (
       <>
         <Link className="btn btn-link" to={"/profile"}>
-          Profile
+          <i className="fas fa-user-circle userIcon"></i>
         </Link>
         <button
           className="btn btn-sm btn-outline-primary mx-2"

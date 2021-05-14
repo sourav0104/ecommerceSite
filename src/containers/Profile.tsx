@@ -1,107 +1,142 @@
-import axios from "axios";
 import React from "react";
 import Column from "../components/Column";
 import Row from "../components/Row";
-import StorageService from "../services/StorageService";
 import UserService from "../services/UserService";
+import { Link, RouteComponentProps, NavLink } from "react-router-dom";
+
 type Props = {};
-type State = { orderAddress: any };
+type State = {
+  userList: any;
+  addr: any;
+};
 
 class Profile extends React.Component<Props, State> {
-  state: State = {
-    orderAddress: [],
+  state: State = { userList: [], addr: [] };
+  deleteaddress = () => {
+    const delteData = this.state.addr;
+    console.log(delteData);
+    delteData.pop();
+    this.setState({
+      addr: delteData,
+    });
   };
-  // async componentDidMount() {
-  //   try {
-  //     const { data } = await UserService.profile();
-  //     console.log(data.address);
-  //     this.setState({ orderAddress: data.address });
-  //   } catch (e) {
-  //     console.log(e.response.data);
-  //   }
-  // }
-
+  async componentDidMount() {
+    try {
+      const { data } = await UserService.profile();
+      const address = await UserService.address();
+      console.log(data);
+      // const addData=address.
+      // const mapAddress = address.
+      console.log("address list", address);
+      this.setState({
+        userList: data,
+        addr: address.data[0],
+      });
+    } catch (e) {
+      // console.log(e.response.data);
+    }
+  }
   render() {
-    // console.log(this.state.orderData[0].isCancelled);
+    console.log(this.state.userList);
     return (
-      <>
-        <Row>
-          <h2 className="text-primary mb-4">Profile Details</h2>
-          <Column size={4}>
-            <div className="container user">
-              <h3>UserName</h3>
-              <h4>User Email</h4>
+      <div className="container col-md-8">
+        <h2 className="text-primary text-center display-5 fw-bold">
+          User Details
+        </h2>
+        <hr />
+        <div className="row ">
+          <div className="col-md-4 p-5 bg-secondary">
+            <div className="">
+              {/* <img
+                src="../image/user.jpg "
+                alt="img"
+                className="rounded-circle  mx-auto"
+              /> */}
+              {/* <img
+                src="../image/user.jpg"
+                className="rounded-circle  mx-auto"
+              /> */}
             </div>
-          </Column>
-          <Column size={8}>
-            {this.state.orderAddress.map((data: any) => (
-              <div className="container order" id={data.id} key={data.id}>
-                <h5>
-                  <p>
-                    NAME: {data.firstName} {data.lastName}
-                  </p>
-                  <p>Mobile No: {data.mobileNo}</p>
-                  ADDRESS: {data.line1}
-                  {data.line2} , {data.city}, {data.state} ,{data.pincode}
-                </h5>
+            <h2 className="fw-bold text-center">
+              ID
+              <h4 className="display-9 text-warning">
+                {" "}
+                {this.state.userList.userId}
+              </h4>
+            </h2>
+            <NavLink to={"/cart"}>
+              <button
+                type="button"
+                className="btn btn-info text-center rounded"
+              >
+                My Orders
+              </button>
+            </NavLink>
+          </div>
+          <div className="col-md-8 p-5 ">
+            <div>
+              <h2 className="fw-bold text-info">
+                NAME :{" "}
+                <span className="text-warning">
+                  {" "}
+                  {this.state.userList.userName}
+                </span>
+              </h2>
+              <h2 className="fw-bold text-info">
+                EMAIL :{" "}
+                <span className="text-warning">
+                  {this.state.userList.userEmail}{" "}
+                </span>{" "}
+              </h2>
+              <h2 className="mr-3">Address Details</h2>
+              <hr />
+              <h2 className="fw-bold text-info">
+                Adderss1 :{" "}
+                <span className="text-warning">{this.state.addr.line1} </span>{" "}
+              </h2>
+              <h2 className="fw-bold text-info">
+                Adderss1 :{" "}
+                <span className="text-warning">{this.state.addr.line2} </span>{" "}
+              </h2>
+              <h2 className="fw-bold text-info">
+                City :{" "}
+                <span className="text-warning">{this.state.addr.city} </span>{" "}
+              </h2>
+              <h2 className="fw-bold text-info">
+                State :{" "}
+                <span className="text-warning">{this.state.addr.state} </span>{" "}
+              </h2>
+              <h2 className="fw-bold text-info">
+                Pincode :{" "}
+                <span className="text-warning">{this.state.addr.pincode} </span>{" "}
+              </h2>
+              {/* <h3 className="fw-bold text-info "><u> Date </u></h3> */}
+              <p className="fw-bold">{this.state.addr.createdAt}</p>
+              <div className="btn-group">
+                <NavLink to={"/add"}>
+                  <button type="button" className="btn btn-success rounded">
+                    Add
+                  </button>
+                </NavLink>
+                <NavLink to={"/edit"}>
+                  <button type="button" className="btn btn-warning rounded">
+                    Edit
+                  </button>
+                </NavLink>
+                <button
+                  type="button"
+                  className="btn btn-danger rounded"
+                  onClick={this.deleteaddress}
+                >
+                  Delete
+                </button>
               </div>
-            ))}
-          </Column>
-        </Row>
-        <Row>
-          <Column size={4}></Column>
-          <Column size={8}>
-            <form>
-              <div className="mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="line1"
-                  placeholder="line1"
-                ></input>
-              </div>
-
-              <div className="mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="line2"
-                  placeholder="line2"
-                ></input>
-              </div>
-
-              <div className="mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="city"
-                  placeholder="city"
-                ></input>
-              </div>
-
-              <div className="mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="state"
-                  placeholder="state"
-                ></input>
-              </div>
-
-              <div className="mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="pincode"
-                  placeholder="pincode"
-                ></input>
-              </div>
-            </form>
-            <button className="btn btn-warning">Update</button>
-          </Column>
-        </Row>
-      </>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }
+
 export default Profile;
