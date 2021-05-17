@@ -1,51 +1,31 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
-}
-
-.form {
-  background-color: #ccc;
-  padding: 2rem 1rem;
-  border-radius: 10px;
-  box-shadow: 1px 1px 1px 1px #000;
-}
-.register > h2 {
-  text-align: center;
-  font-weight: bold;
-}
-.form-content {
-  padding: 1rem;
-}
-.form-group {
-  padding: 1rem;
-}
-.form-group > input {
-  padding: 10px;
+    color: #61dafb;
 }
 
 .cart{
@@ -57,11 +37,27 @@
 }
 
 .cart1{
-   background-color: #eee;
+   background-color: #f2f2f2;
    border-radius: 10px;
    box-shadow:1px 1px .6px 1px #ccc;
-   /* margin:4px 2px;
-   padding:10px 20px; */
+   /* margin:4px 2px; */
+   padding:20px 30px;
+}
+
+.bill{
+  padding:30px 10px;
+}
+#form2{
+  padding:20px 10px;
+}
+.contain>label{
+  font-weight: bold;
+  margin:10px 0px;
+}
+.billForm{
+  width:100%;
+  /* box-sizing: border-box; */
+  /* border: none; */
 }
 
 table {
@@ -97,23 +93,16 @@ table {
 h1{
   font-size:4rem;
 }
-.offer{
-  font-size:6rem;
-  font-weight:bold;
-  color:#9d0208;
-}
-.offer1{
-  font-size:4rem;
-  font-weight:bold;
-  color:#9d0208;
-}
+
 .img1{
   height:100vh;
   width: 100%;
 }
+
 .p{
   font-size:1.5rem;
 }
+
 .shop{
   font-size:3rem;
   font-weight:bold;
@@ -126,4 +115,47 @@ h1{
 }
 .userIcon{
   font-size: 30px;
+}
+
+.form {
+  background-color: #ccc;
+  padding: 2rem 1rem;
+  border-radius: 10px;
+  box-shadow: 1px 1px 1px 1px #000;
+}
+.register > h2 {
+  text-align: center;
+  font-weight: bold;
+}
+.form-content {
+  padding: 1rem;
+}
+.form-group {
+  padding: 1rem;
+}
+.form-group > input {
+  padding: 10px;
+}
+.checkbox{
+  padding:0px 10px;
+}
+
+.filter{
+  margin:30px 0px;
+  background: #f2f2f2;
+  padding:20px 10px;
+  box-shadow:1px 1px .6px 1px #ccc;
+  border-radius: 4px;
+}
+#sort{
+  width:200px;
+  margin:20px 0px;
+  padding:10px 10px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px 1px #000;
+}
+.sorting{
+  margin:20px 0px;
 }

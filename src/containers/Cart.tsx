@@ -4,12 +4,15 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import Column from "../components/Column";
 import StorageService from "../services/StorageService";
-import { CartType } from "../types";
+import { CartType, ProductType } from "../types";
 import { BrowserRouter, NavLink, Redirect, useHistory } from "react-router-dom";
+import { Dispatch } from "redux";
+import CartActions from "../store/actions/CartActions";
 import Row from "../components/Row";
 
 type Props = {
   cartDetails: any;
+  removeItem: any;
 } & RouteComponentProps;
 type State = {};
 
@@ -19,25 +22,31 @@ class Cart extends React.Component<Props, State> {
   render() {
     const allProductId: any = [];
     let allProductData: any = [];
-    const data = this.props.cartDetails.cart;
-    let finaldata = data.map((data: any, index: number, arr: any) => {
+    const datas = this.props.cartDetails.cart;
+    let finalProductdata = datas.map((data: any, index: number, arr: any) => {
       if (allProductId.includes(data.productId) === false) {
         allProductData.push(data);
         allProductId.push(data.productId);
       }
     });
 
+
+    //decrementquantity function
     const decrementQuantity = (e: any) => {
-      let dataForFilter = allProductData.map(
+      let dataFilteration = allProductData.map(
         (data: any, index: number, arr: any) => {
           if (JSON.parse(e.target.value) === JSON.parse(data.productId)) {
-            data.productQty = JSON.parse(data.productQty) - 1;
+            if (data.productQty >= 2) {
+              data.productQty = JSON.parse(data.productQty) - 1;
+            }
           }
         }
       );
       this.setState({ change: true });
     };
 
+
+    //incrementquantity function
     const incrementQuantity = (e: any) => {
       allProductData.map((data: any, index: number, arr: any) => {
         if (JSON.parse(e.target.value) === JSON.parse(data.productId)) {
@@ -47,24 +56,17 @@ class Cart extends React.Component<Props, State> {
       this.setState({ change: true });
     };
 
-    const Delete = (e: any) => {
-      allProductData.map((data: any, index: number, arr: any) => {
-        if (JSON.parse(e.target.value) === JSON.parse(data.productId)) {
-          data.productId = JSON.parse(data.productId);
-          alert("hello")
-        }
-      });
-    };
-
-    const onSubmit = (e: any) => {
+    
+    
+    const onProcessSubmit = (e: any) => {
       e.preventDefault();
 
-      const orderDetails = allProductData.filter(
+      const orderData = allProductData.filter(
         (data: any) => data.productQty >= 1
       );
 
       const dataPass = {
-        productData: JSON.stringify(orderDetails),
+        products: JSON.stringify(orderData),
         totalAmount: TotalAmount,
       };
 
@@ -80,89 +82,120 @@ class Cart extends React.Component<Props, State> {
           )
       );
     };
-    const redirectToCheckout = () => {
+    const redirecting = () => {
       if (this.state.reRender === true) {
         return <Redirect to="/checkout" />;
       }
     };
+
+    //remove production function
+    const removeProductItem = (e: any) => {
+      console.log(e.target.value);
+      let itemId = parseInt(e.target.value);
+      console.log(itemId);
+      this.props.removeItem(itemId);
+    };
+    
 
     let TotalAmount: number = 0;
     return (
       <Row>
         <Column size={8}>
           <div className="container cart">
-            {redirectToCheckout()}
-            <h1 className="text-primary">Cart Details</h1>
+            {redirecting()}
+            <h2 className="text-primary">Your Shipping Details</h2>
+
             <table className="table">
+
+              {/* cartheader starts */}
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">product Id</th>
+                  <th scope="col" className="col-1"> Image</th>
                   <th scope="col">Product Name</th>
-                  <th scope="col">Product Price</th>
-                  <th scope="col">Product Quantity</th>
-                  <th scope="col">Total Price</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">
+                    Product Price
+                  </th>
+                  <th scope="col">
+                    Product Quantity
+                  </th>
+                  <th scope="col">
+                    Total Price
+                  </th>
                 </tr>
               </thead>
+            {/* cartheader ends */}
+
+              {/* cart body starts */}
               <tbody>
-                {allProductData.map((data: any, index: number) =>
-                  data.productQty > 0 ? (
-                    <tr key={data.productId}>
-                      <th scope="row">{index + 1}</th>
-                      <td>{data.productId}</td>
-                      <td>{data.productName}</td>
-                      <td>INR {data.productSalePrice}</td>
-                      <td>
-                        <button
-                          className="btn btn-danger m-2"
-                          onClick={decrementQuantity}
-                          value={data.productId}
-                        >
-                          -
-                        </button>
-                        {data.productQty}
-                        <button
-                          className="btn btn-primary m-2"
-                          onClick={incrementQuantity}
-                          value={data.productId}
-                        >
-                          +
-                        </button>
-                      </td>
-                      <td>
-                        INR {data.productSalePrice * data.productQty}
-                        <p style={{ display: "none" }}>
-                          {
-                            (TotalAmount =
-                              TotalAmount +
-                              data.productSalePrice * data.productQty)
-                          }
-                        </p>
-                      </td>
-                      <td>
-                        <button
-                          className="btn btn-danger"
-                          onClick={Delete}
-                          value={data.productId}
-                        >
-                          X
-                        </button>
-                      </td>
-                    </tr>
-                  ) : null
-                )}
+                {allProductData.map((data: any, index: number) => (
+                  <tr key={data.productId}>
+                    <th scope="row">{index + 1}</th>
+                    <td>
+                      <div className="imageDivThum">
+                        <img
+                          className="img-thumbnail"
+                          src={data.productImage}
+                          alt={data.productName}
+                        />
+                      </div>
+                    </td>
+                    <td>{data.productName}</td>
+                    <td>INR {data.productSalePrice}</td>
+                    <td>
+                      <button
+                        className="btn btn-danger m-2"
+                        onClick={decrementQuantity}
+                        value={data.productId}
+                      >
+                        -
+                      </button>
+                      {data.productQty}
+                      <button
+                        className="btn btn-primary m-2"
+                        onClick={incrementQuantity}
+                        value={data.productId}
+                      >
+                        +
+                      </button>
+                    </td>
+                    <td>
+                      INR {data.productSalePrice * data.productQty}
+                      <p style={{ display: "none" }}>
+                        {
+                          (TotalAmount =
+                            TotalAmount +
+                            data.productSalePrice * data.productQty)
+                        }
+                      </p>
+                    </td>
+                    <td>
+                      <button
+                        value={data.productId}
+                        className="btn-outline-danger btn p-1"
+                        onClick={removeProductItem}
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
+              {/* cartbody ends */}
+
             </table>
           </div>
-          <div className="container mt-4">
-            <button className="btn btn-primary p-3" onClick={onSubmit}>
+          <div className="container">
+            <button
+              className="btn btn-primary p-3 mt-4"
+              onClick={onProcessSubmit}
+            >
               Proceed to Checkout
             </button>
           </div>
         </Column>
         <Column size={4}>
-          <h4 className="totalPrice">
+          <h4 className={"totalPrice"}>
             Total Product Price <strong>INR {TotalAmount}</strong>
           </h4>
         </Column>
@@ -177,4 +210,10 @@ const mapStoreToProps = (store: CartType) => {
   };
 };
 
-export default connect(mapStoreToProps, null)(Cart);
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    removeItem: (itemId: number) => dispatch(CartActions.removeItem(itemId)),
+  };
+};
+
+export default connect(mapStoreToProps, mapDispatchToProps)(Cart);

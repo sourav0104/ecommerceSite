@@ -21,7 +21,6 @@ type LoginProps = {
     isAuthenticated: boolean;
     errorMessage: string | null;
 } & RouteComponentProps;
-
 type LoginState = { email: string; password: string };
 class Login extends React.Component<LoginProps, LoginState> {
     state: LoginState = { email: "", password: "" };
@@ -75,10 +74,13 @@ class Login extends React.Component<LoginProps, LoginState> {
                                     this.setState({ password })
                                 }
                             />
-                            <button className="btn btn-success w-100 text-uppercase">
+                            <button
+                                className={
+                                    "btn btn-success w-100 text-uppercase"
+                                }
+                            >
                                 Login
                             </button>
-                            
                             <NavLink to={"/register"} className="navlink">Register</NavLink>
                         </form>
                     </Column>

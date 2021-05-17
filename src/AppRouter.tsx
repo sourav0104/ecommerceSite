@@ -15,26 +15,32 @@ import Demo from "./Demo";
 const LazyProfile = React.lazy(() => import("./containers/Profile"));
 
 const AppRouter: React.FC = (props) => {
-  return (
-    <main>
-      <Container fluid>
-        <React.Suspense fallback={<div>Loading...</div>}>
-          <Switch>
-            <Route path={"/"} component={Demo} exact />
-            <Route path={"/products"} component={ProductList} />
-            <Route path={"/login"} component={Login} />
-            <Route path={"/profile"} component={LazyProfile} />
-            <Route path={"/productdetail/:id"} component={ProductDetail} />
-            <PrivateRoute path={"/cart"} component={Cart} />
-            <Route path={"/register"} component={Register} />
-            <Route path={"/checkout"} component={Checkout} />
+    return (
+        <main>
+            <Container fluid>
+                <React.Suspense fallback={<div>Loading...</div>}>
+                    <Switch>
+                        <Route path={"/"} component={Demo} exact />
+                        <Route path={"/products"} component={ProductList} />
+                        <Route path={"/login"} component={Login} />
+                        <PrivateRoute
+                            path={"/profile"}
+                            component={LazyProfile}
+                        />
+                        <Route
+                            path={"/productdetail/:id"}
+                            component={ProductDetail}
+                        />
+                        <PrivateRoute path={"/cart"} component={Cart} />
+                        <Route path={"/register"} component={Register} />
+                        <Route path={"/checkout"} component={Checkout} />
 
-            {/* 404 Route */}
-            <Route component={ErrorPage} />
-          </Switch>
-        </React.Suspense>
-      </Container>
-    </main>
-  );
+                        {/* 404 Route */}
+                        <Route component={ErrorPage} />
+                    </Switch>
+                </React.Suspense>
+            </Container>
+        </main>
+    );
 };
 export default AppRouter;

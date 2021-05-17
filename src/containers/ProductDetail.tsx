@@ -99,9 +99,7 @@ class ProductDetail extends React.Component<Props> {
     }
 
     render() {
-        // {
-        //     this.setState({ lan: this.props.selectedCurrency });
-        // }
+        
 
         return (
             <ErrorBoundary>

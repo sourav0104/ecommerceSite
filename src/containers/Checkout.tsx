@@ -5,7 +5,7 @@ import { Redirect, RouteComponentProps } from "react-router";
 import axios from "axios";
 import StorageService from "../services/StorageService";
 
-type Props = { cartData: any } & RouteComponentProps;
+type Props = { cartDetails: any } & RouteComponentProps;
 type State = {
   paymentMethod: string;
   firstName: string;
@@ -65,6 +65,8 @@ class Checkout extends React.Component<Props, State> {
     }
   };
 
+
+  // if address same
   checkboxclick = (e: any) => {
     if (e.target.checked === true) {
       this.setState({
@@ -133,6 +135,8 @@ class Checkout extends React.Component<Props, State> {
     }
   };
 
+
+  // email validation
   emailValidate = () => {
     let validRegex: any =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -143,6 +147,7 @@ class Checkout extends React.Component<Props, State> {
     }
   };
 
+  // mobile validation
   mobileValidate = () => {
     let phoneno = /^\d{10}$/;
     if (this.state.mobile.match(phoneno) && this.state.mobile1.match(phoneno)) {
@@ -162,15 +167,15 @@ class Checkout extends React.Component<Props, State> {
     this.totalPrice = 0;
     return (
       <>
-        <h1 id="heading1">Checkout Page</h1>
+        <h2 className="text-center text-primary">Checkout Page</h2>
         {this.redirecting()}
         <div className="container cart1">
-          <div className="mb-3">Payment</div>
-          <div className="col-md-5 mb-3">
+          <h3 className="mb-3">Payment</h3>
+          <div className="col-md-5 mb-3 ">
             <label>
               Payment Method{" "}
               <select
-                className="custom-select d-block w-100"
+                className=""
                 id="paymentMethod"
                 name="paymentMethod"
                 value={this.state.paymentMethod}
@@ -193,22 +198,23 @@ class Checkout extends React.Component<Props, State> {
             </label>
           </div>
 
+
+          {/* billing section starts */}
           <div className="row">
-            <div className="col-md-8 order-md-1">
-              <h4 className="mb-3">Billing address</h4>
+            <div className="col-md-8 order-md-1 bill">
+              <h3 className="mb-3">Billing address</h3>
               <form
                 className="needs-validation"
                 id="form2"
                 onSubmit={this.formSubmitting}
-                // novalidate
               >
                 <div className="row">
-                  <div className="col-md-6 mb-3">
+                  <div className="col-md-6 mb-3 contain">
                     <label>
                       First name
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control billForm"
                         id="firstName"
                         name="firstName"
                         placeholder="Joe"
@@ -223,12 +229,12 @@ class Checkout extends React.Component<Props, State> {
                       />
                     </label>
                   </div>
-                  <div className="col-md-6 mb-3">
+                  <div className="col-md-6 mb-3 contain">
                     <label>
                       Last name{" "}
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control billForm"
                         id="lastName"
                         name="lastName"
                         placeholder="Roy"
@@ -245,12 +251,12 @@ class Checkout extends React.Component<Props, State> {
                   </div>
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-3 contain">
                   <label>
                     Email{" "}
                     <input
                       type="email"
-                      className="form-control"
+                      className="form-control billForm"
                       id="email"
                       name="email"
                       value={this.state.email}
@@ -266,12 +272,12 @@ class Checkout extends React.Component<Props, State> {
                   </label>
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-3 contain">
                   <label>
                     Mobile{" "}
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control billForm"
                       id="mobile"
                       name="mobile"
                       value={this.state.mobile}
@@ -287,12 +293,12 @@ class Checkout extends React.Component<Props, State> {
                   </label>
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-3 contain">
                   <label>
                     Address{" "}
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control billForm"
                       id="address"
                       name="address"
                       value={this.state.address}
@@ -308,12 +314,12 @@ class Checkout extends React.Component<Props, State> {
                   </label>
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-3 contain">
                   <label>
                     Address 2<span className="text-muted">(Optional)</span>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control billForm"
                       id="address2"
                       name="address2"
                       value={this.state.address2}
@@ -329,11 +335,11 @@ class Checkout extends React.Component<Props, State> {
                 </div>
 
                 <div className="row">
-                  <div className="col-md-5 mb-3">
+                  <div className="col-md-5 mb-3 contain">
                     <label>
                       City{" "}
                       <select
-                        className="custom-select d-block w-100"
+                        className="custom-select d-block w-100 billForm"
                         id="country"
                         name="country"
                         value={this.state.country}
@@ -354,11 +360,11 @@ class Checkout extends React.Component<Props, State> {
                       </select>
                     </label>
                   </div>
-                  <div className="col-md-4 mb-3">
+                  <div className="col-md-4 mb-3 contain">
                     <label>
                       State
                       <select
-                        className="custom-select d-block w-100"
+                        className="custom-select d-block w-100 billForm"
                         id="state"
                         name="state"
                         value={this.state.state}
@@ -379,12 +385,12 @@ class Checkout extends React.Component<Props, State> {
                       </select>
                     </label>
                   </div>
-                  <div className="col-md-3 mb-3">
+                  <div className="col-md-3 mb-3 contain">
                     <label>
                       Zip{" "}
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control billForm"
                         id="zip"
                         name="zip"
                         value={this.state.zip}
@@ -400,8 +406,11 @@ class Checkout extends React.Component<Props, State> {
                     </label>
                   </div>
                 </div>
+                {/* billing section ends */}
+
+
                 <hr className="mb-4" />
-                <div className="custom-control custom-checkbox">
+                <div className="custom-control checkbox">
                   <input
                     type="checkbox"
                     className="custom-control-input"
@@ -413,14 +422,16 @@ class Checkout extends React.Component<Props, State> {
                   </label>
                 </div>
                 <hr className="mb-4" />
-                <h4 className="mb-3">Shopping address</h4>
+
+                {/* shipping section starts */}
+                <h3 className="mb-3">Shipping address</h3>
                 <div className="row">
-                  <div className="col-md-6 mb-3">
+                  <div className="col-md-6 mb-3 contain">
                     <label>
                       First name{" "}
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control billForm"
                         id="firstName1"
                         name="firstName1"
                         placeholder="Joe"
@@ -435,12 +446,12 @@ class Checkout extends React.Component<Props, State> {
                       />
                     </label>
                   </div>
-                  <div className="col-md-6 mb-3">
+                  <div className="col-md-6 mb-3 contain">
                     <label>
                       Last name{" "}
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control billForm"
                         id="lastName1"
                         name="lastName1"
                         placeholder="Roy"
@@ -457,12 +468,12 @@ class Checkout extends React.Component<Props, State> {
                   </div>
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-3 contain">
                   <label>
                     Mobile{" "}
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control billForm"
                       id="mobile1"
                       name="mobile1"
                       value={this.state.mobile1}
@@ -478,12 +489,12 @@ class Checkout extends React.Component<Props, State> {
                   </label>
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-3 contain">
                   <label>
                     Address{" "}
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control billForm"
                       id="address1"
                       name="address1"
                       value={this.state.address1}
@@ -499,12 +510,12 @@ class Checkout extends React.Component<Props, State> {
                   </label>
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-3 contain">
                   <label>
                     Address 2<span className="text-muted">(Optional)</span>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control billForm"
                       id="address21"
                       name="address21"
                       value={this.state.address21}
@@ -520,11 +531,11 @@ class Checkout extends React.Component<Props, State> {
                 </div>
 
                 <div className="row">
-                  <div className="col-md-5 mb-3">
+                  <div className="col-md-5 mb-3 contain">
                     <label>
                       Country{" "}
                       <select
-                        className="custom-select d-block w-100"
+                        className="custom-select d-block w-100 billForm"
                         id="country1"
                         name="country1"
                         value={this.state.country1}
@@ -545,11 +556,11 @@ class Checkout extends React.Component<Props, State> {
                       </select>
                     </label>
                   </div>
-                  <div className="col-md-4 mb-3">
+                  <div className="col-md-4 mb-3 contain">
                     <label>
                       State{" "}
                       <select
-                        className="custom-select d-block w-100"
+                        className="custom-select d-block w-100 billForm"
                         id="state1"
                         name="state1"
                         value={this.state.state1}
@@ -570,12 +581,12 @@ class Checkout extends React.Component<Props, State> {
                       </select>
                     </label>
                   </div>
-                  <div className="col-md-3 mb-3">
+                  <div className="col-md-3 mb-3 contain">
                     <label>
                       Zip{" "}
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control billForm"
                         id="zip1"
                         name="zip1"
                         value={this.state.zip1}
@@ -591,55 +602,29 @@ class Checkout extends React.Component<Props, State> {
                     </label>
                   </div>
                 </div>
+                {/* shipping section ends */}
                 <hr className="mb-4" />
-                <div className="col-md-4 order-md-2 mb-4 before_order">
-                  <h4 className="d-flex justify-content-between align-items-center mb-3">
-                    <span className="text-muted">Your cart</span>
-                    <span className="badge badge-secondary badge-pill">3</span>
-                  </h4>
-                  <ul className="list-group mb-3">
-                    {this.props.cartData.cart.map((data: any) =>
-                      data.productQty > 0 ? (
-                        <li className="list-group-item d-flex justify-content-between lh-condensed">
-                          <div>
-                            <h6 className="my-0">{data.productName}</h6>
-                          </div>
-                          <span className="text-muted">
-                            Qty {data.productQty}
-                          </span>
-                          <span className="text-muted">
-                            INR {data.productSalePrice * data.productQty}
-                          </span>
-                        </li>
-                      ) : null
-                    )}
-
-                    <li className="list-group-item d-flex justify-content-between">
-                      <span>Total (INR)</span>
-                      <strong>INR {this.totalPrice}</strong>
-                    </li>
-                  </ul>
-                </div>
+               
                 <button
                   className="btn btn-primary btn-lg btn-block"
                   id="btn"
-                  // onSubmit={this.formSubmitting}
                 >
                   Continue to checkout
                 </button>
               </form>
             </div>
-            <div className="col-md-4 order-md-2 mb-4 after_order">
-              <h4 className="d-flex justify-content-between align-items-center mb-3">
-                <span className="text-muted">Your cart</span>
-                <span className="badge badge-secondary badge-pill">3</span>
+
+            {/* totalprice section starts */}
+            <div className="col-md-4 order-md-2 mb-4 after_order cart2">
+              <h4 className="mb-3 cart bg-dark">
+                <span className="text-light">Your cart</span>
               </h4>
-              <ul className="list-group mb-3">
-                {this.props.cartData.cart.map((data: any) =>
+              <ul className="list-group mb-3 cart bg-dark">
+                {this.props.cartDetails.cart.map((data: any) =>
                   data.productQty > 0 ? (
                     <li className="list-group-item d-flex justify-content-between lh-condensed">
                       <div>
-                        <h6 className="my-0">{data.productName}</h6>
+                        <h6 className="text-muted">{data.productName}</h6>
                       </div>
                       <span className="text-muted">Qty {data.productQty}</span>
                       <span className="text-muted">
@@ -662,6 +647,7 @@ class Checkout extends React.Component<Props, State> {
                 </li>
               </ul>
             </div>
+            {/* total price selection ends */}
           </div>
         </div>
       </>
@@ -671,7 +657,7 @@ class Checkout extends React.Component<Props, State> {
 
 const mapStoreToProps = (store: CartType) => {
   return {
-    cartData: store,
+    cartDetails: store,
   };
 };
 

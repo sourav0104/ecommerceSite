@@ -35,6 +35,7 @@ class Register extends React.Component {
     }
   };
 
+  
   redirectToLogin = () => {
     if (this.state.redirect) {
       return <Redirect to="/login" />;
