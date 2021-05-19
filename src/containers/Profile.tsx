@@ -2,10 +2,11 @@ import axios from "axios";
 import React from "react";
 import { Redirect, Route, RouteComponentProps } from "react-router";
 import Column from "../components/Column";
+import ProfileUpload from "../components/ProfileUpload";
 import Row from "../components/Row";
 import StorageService from "../services/StorageService";
 import UserService from "../services/UserService";
-type Props = {} & RouteComponentProps;
+type Props = { uploadClick: () => void } & RouteComponentProps;
 type State = {
   orderAddress: any;
   line1: string;
@@ -14,15 +15,17 @@ type State = {
   state: string;
   pincode: number;
   changed: boolean;
-  Allproducts: any;
+  productsFromApi: any;
   orderDate: any;
   shippingDate: any;
   orderIds: any;
   userProfileImage: string;
   userName: string;
   userEmail: string;
+  hide: boolean;
+  profileImage: any;
 };
-
+// type uploadFile = () => void;
 class Profile extends React.Component<Props, State> {
   state: State = {
     orderAddress: [],
@@ -32,13 +35,15 @@ class Profile extends React.Component<Props, State> {
     state: "",
     pincode: 0,
     changed: false,
-    Allproducts: [],
+    productsFromApi: [],
     orderIds: [],
     orderDate: [],
     shippingDate: [],
     userProfileImage: "",
     userName: "",
     userEmail: "",
+    hide: true,
+    profileImage: "",
   };
 
   ordersData = [];
@@ -48,21 +53,29 @@ class Profile extends React.Component<Props, State> {
   }
 
   getData = async () => {
-    this.setState({ Allproducts: [] });
+    this.setState({ productsFromApi: [] });
     this.setState({ orderIds: [] });
     this.setState({ orderDate: [] });
     this.setState({ shippingDate: [] });
+    this.setState({
+      hide: true,
+    });
 
     try {
       const { data } = await UserService.profile();
       console.log(data.address);
       console.log(data.order);
+      console.log(data.profileImage);
       this.setState({ userName: data.userName.toUpperCase() });
       this.setState({ userEmail: data.userEmail });
+      this.setState({ userProfileImage: data.profileImage });
 
       data.order.map((data: any, index: number) => {
         this.setState({
-          Allproducts: [...this.state.Allproducts, JSON.parse(data.products)],
+          productsFromApi: [
+            ...this.state.productsFromApi,
+            JSON.parse(data.products),
+          ],
         });
 
         // this.ordersData.push()
@@ -87,13 +100,29 @@ class Profile extends React.Component<Props, State> {
       });
 
       // this.state.productsFromApi.map((data) => console.log(data));
-      // console.log(this.state.productsFromApi);
-      // console.log(this.state.orderIds);
+      console.log(this.state.productsFromApi);
+      console.log(this.state.orderIds);
 
       this.setState({ orderAddress: data.address });
     } catch (e) {
       console.log(e.response.data);
     }
+
+    axios
+      .get(
+        `http://localhost:5000/auth/profileImage/${this.state.userProfileImage}`
+      )
+      .then(
+        (response) => (
+          console.log(response.status === 200, "getting"),
+          // history.state("/login")
+          console.log(response),
+          this.setState({
+            profileImage: response.request.responseURL,
+          }),
+          console.log(this.state.profileImage)
+        )
+      );
   };
 
   addAddress = (e: any) => {
@@ -155,6 +184,12 @@ class Profile extends React.Component<Props, State> {
     );
   };
 
+  iconClicked = () => {
+    this.setState({
+      hide: false,
+    });
+  };
+
   render() {
     return (
       <>
@@ -164,16 +199,29 @@ class Profile extends React.Component<Props, State> {
           <Column size={4}>
             <div className="container user text-center">
               <div className="profileImage" id="profileImage">
-                <img src="" alt="Profile Image" className="img-thumbnail" />
+                <img
+                  src={this.state.profileImage}
+                  alt="Profile Image"
+                  className="img-thumbnail"
+                  width="200px"
+                />
+
+                <i className="fas fa-upload" onClick={this.iconClicked}></i>
+                {this.state.hide ? null : (
+                  <ProfileUpload getData={this.getData} />
+                )}
               </div>
               <h3>{this.state.userName}</h3>
               <h4>{this.state.userEmail}</h4>
             </div>
-
             <h4 className="text-center">Address</h4>
-            <div className="showaddress">
+            <div className="bg-light-gray text-center">
               {this.state.orderAddress.map((data: any) => (
-                <div className="" id={data.id} key={data.id}>
+                <div
+                  className="container order bg-gray m-5 p-3 text-capitalize"
+                  id={data.id}
+                  key={data.id}
+                >
                   <h5>
                     {data.firstName !== null ? (
                       <p>
@@ -209,7 +257,9 @@ class Profile extends React.Component<Props, State> {
                   value={this.state.line1}
                   placeholder="line1"
                   onChange={(e: any) =>
-                    this.setState({ line1: e.target.value })
+                    this.setState({
+                      line1: e.target.value,
+                    })
                   }
                 ></input>
               </div>
@@ -223,7 +273,9 @@ class Profile extends React.Component<Props, State> {
                   value={this.state.line2}
                   placeholder="line2"
                   onChange={(e: any) =>
-                    this.setState({ line2: e.target.value })
+                    this.setState({
+                      line2: e.target.value,
+                    })
                   }
                 ></input>
               </div>
@@ -236,7 +288,11 @@ class Profile extends React.Component<Props, State> {
                   id="city"
                   value={this.state.city}
                   placeholder="city"
-                  onChange={(e: any) => this.setState({ city: e.target.value })}
+                  onChange={(e: any) =>
+                    this.setState({
+                      city: e.target.value,
+                    })
+                  }
                 ></input>
               </div>
 
@@ -249,7 +305,9 @@ class Profile extends React.Component<Props, State> {
                   value={this.state.state}
                   placeholder="state"
                   onChange={(e: any) =>
-                    this.setState({ state: e.target.value })
+                    this.setState({
+                      state: e.target.value,
+                    })
                   }
                 ></input>
               </div>
@@ -273,7 +331,76 @@ class Profile extends React.Component<Props, State> {
             </form>
           </Column>
         </Row>
-       
+
+        <Column size={12}>
+          <div className="col-md-12 text-center">
+            {this.state.productsFromApi.map((data: any, index: number) => (
+              <Row>
+                <div className="bg-primary p-3">
+                  <h3>Order {index + 1}</h3>
+                  <h4>
+                    Order Date :{" "}
+                    {new Date(this.state.orderDate[index]).toLocaleString()}
+                  </h4>
+                  {data.map((data:any) => (
+                    <>
+                      <tr
+                        className={
+                          this.state.orderIds[index] == 0
+                            ? "bg-warning flexDisplay"
+                            : "bg-success flexDisplay"
+                        }
+                      >
+                        <td className="imageDivThum p-2 flex-auto flexDisplay">
+                          <img
+                            className="img-thumbnail"
+                            src={data.productImage}
+                          />
+                        </td>
+                        <td className="full-width col-4">
+                          <p>
+                            {" "}
+                            <b>Product Name</b>
+                          </p>
+                          {data.productName}
+                        </td>
+                        <td className="full-width col-2">
+                          <p>
+                            <b>Price Per Qty</b>
+                          </p>
+                          {data.productSalePrice}
+                        </td>
+                        <td className="full-width col-2">
+                          <p>
+                            <b>Product Quantity</b>
+                          </p>
+                          {data.productQty}
+                        </td>
+                        <td className="full-width col-2">
+                          <p>
+                            <b>Total Amount</b>
+                          </p>
+                          {data.productSalePrice * data.productQty}
+                        </td>
+                      </tr>
+                    </>
+                  ))}
+                  {this.state.orderIds[index] == 0 ? (
+                    <p className="bg-danger p-md-3">Order Cancelled</p>
+                  ) : (
+                    <button
+                      value={this.state.orderIds[index]}
+                      onClick={this.cancelOrder}
+                      className="btn btn-danger"
+                    >
+                      Cancel Order
+                    </button>
+                  )}
+                </div>
+              </Row>
+            ))}
+          </div>
+        </Column>
       </>
     );
   }

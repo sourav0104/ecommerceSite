@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { BrowserRouter, NavLink, Redirect, useHistory } from "react-router-dom";
 import Login from "./Login";
+import emailjs from "emailjs-com";
 
 type RegisterState = {
   email: any;
@@ -28,14 +29,32 @@ class Register extends React.Component {
         email: this.state.email,
         password: this.state.password,
       };
-      axios
-        .post("http://localhost:5000/auth/register", user)
-        .then((response) => console.log(response.status === 201));
+      axios.post("http://localhost:5000/auth/register", user).then(
+        (response) => (
+          console.log(response.status === 201),
+          // history.state("/login")
+          emailjs
+            .sendForm(
+              "service_6p379zl",
+              "template_74q6k3o",
+              e.target,
+              "user_ciH3nwZ8RKtdwQ04eyVpy"
+            )
+            .then(
+              (result) => {
+                console.log(result.text);
+              },
+              (error) => {
+                console.log(error.text);
+              }
+            )
+        )
+      );
+
       this.setState({ redirect: true });
     }
   };
 
-  
   redirectToLogin = () => {
     if (this.state.redirect) {
       return <Redirect to="/login" />;

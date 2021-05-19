@@ -221,7 +221,7 @@ class Checkout extends React.Component<Props, State> {
                         className="form-control billForm"
                         id="firstName"
                         name="firstName"
-                        placeholder="Joe"
+                        placeholder="Enter FirstName"
                         value={this.state.firstName}
                         required
                         onChange={(e: any) => {
@@ -241,7 +241,7 @@ class Checkout extends React.Component<Props, State> {
                         className="form-control billForm"
                         id="lastName"
                         name="lastName"
-                        placeholder="Roy"
+                        placeholder="Enter LastName"
                         value={this.state.lastName}
                         required
                         onChange={(e: any) => {
@@ -264,7 +264,7 @@ class Checkout extends React.Component<Props, State> {
                       id="email"
                       name="email"
                       value={this.state.email}
-                      placeholder="you@example.com"
+                      placeholder="Enter Your Email Address"
                       required
                       onChange={(e: any) => {
                         this.setState({
@@ -285,7 +285,7 @@ class Checkout extends React.Component<Props, State> {
                       id="mobile"
                       name="mobile"
                       value={this.state.mobile}
-                      placeholder="00000-00000"
+                      placeholder="Enter Mobile Number"
                       required
                       onChange={(e: any) => {
                         this.setState({
@@ -360,7 +360,7 @@ class Checkout extends React.Component<Props, State> {
                         <option value="Mumbai">Mumbai</option>
                         <option value="delhi">Delhi</option>
                         <option value="kolkata">Kolkata</option>
-                        <option value="indor">Indor</option>
+                        <option value="indor">Indore</option>
                       </select>
                     </label>
                   </div>
@@ -381,10 +381,10 @@ class Checkout extends React.Component<Props, State> {
                         onBlur={this.blur}
                       >
                         <option value="">Choose...</option>
-                        <option value="karnatka">Karnatka</option>
+                        <option value="karnatka">Karnataka</option>
                         <option value="delhi">Delhi</option>
                         <option value="bihar">Bihar</option>
-                        <option value="kerla">Kerla</option>
+                        <option value="kerla">Kerala</option>
                         <option value="westBengal">West Bengal</option>
                       </select>
                     </label>
@@ -437,7 +437,7 @@ class Checkout extends React.Component<Props, State> {
                         className="form-control billForm"
                         id="firstName1"
                         name="firstName1"
-                        placeholder="Joe"
+                        placeholder="Enter FirstName"
                         value={this.state.firstName1}
                         required
                         onChange={(e: any) => {
@@ -457,7 +457,7 @@ class Checkout extends React.Component<Props, State> {
                         className="form-control billForm"
                         id="lastName1"
                         name="lastName1"
-                        placeholder="Roy"
+                        placeholder="Enter LastName"
                         value={this.state.lastName1}
                         required
                         onChange={(e: any) => {
@@ -480,7 +480,7 @@ class Checkout extends React.Component<Props, State> {
                       id="mobile1"
                       name="mobile1"
                       value={this.state.mobile1}
-                      placeholder="00000-00000"
+                      placeholder="Enter Mobile Number"
                       required
                       onChange={(e: any) => {
                         this.setState({
@@ -555,7 +555,7 @@ class Checkout extends React.Component<Props, State> {
                         <option value="Mumbai">Mumbai</option>
                         <option value="delhi">Delhi</option>
                         <option value="kolkata">Kolkata</option>
-                        <option value="indor">Indor</option>
+                        <option value="indor">Indore</option>
                       </select>
                     </label>
                   </div>
@@ -576,7 +576,7 @@ class Checkout extends React.Component<Props, State> {
                         onBlur={this.blur}
                       >
                         <option value="">Choose...</option>
-                        <option value="karnatka">Karnatka</option>
+                        <option value="karnatka">Karnataka</option>
                         <option value="delhi">Delhi</option>
                         <option value="bihar">Bihar</option>
                         <option value="kerla">Kerla</option>
