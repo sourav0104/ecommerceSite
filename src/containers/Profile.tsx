@@ -15,7 +15,7 @@ type State = {
   state: string;
   pincode: number;
   changed: boolean;
-  productsFromApi: any;
+  allProducts: any;
   orderDate: any;
   shippingDate: any;
   orderIds: any;
@@ -35,7 +35,7 @@ class Profile extends React.Component<Props, State> {
     state: "",
     pincode: 0,
     changed: false,
-    productsFromApi: [],
+    allProducts: [],
     orderIds: [],
     orderDate: [],
     shippingDate: [],
@@ -53,7 +53,7 @@ class Profile extends React.Component<Props, State> {
   }
 
   getData = async () => {
-    this.setState({ productsFromApi: [] });
+    this.setState({ allProducts: [] });
     this.setState({ orderIds: [] });
     this.setState({ orderDate: [] });
     this.setState({ shippingDate: [] });
@@ -72,10 +72,7 @@ class Profile extends React.Component<Props, State> {
 
       data.order.map((data: any, index: number) => {
         this.setState({
-          productsFromApi: [
-            ...this.state.productsFromApi,
-            JSON.parse(data.products),
-          ],
+          allProducts: [...this.state.allProducts, JSON.parse(data.products)],
         });
 
         // this.ordersData.push()
@@ -100,8 +97,8 @@ class Profile extends React.Component<Props, State> {
       });
 
       // this.state.productsFromApi.map((data) => console.log(data));
-      console.log(this.state.productsFromApi);
-      console.log(this.state.orderIds);
+      // console.log(this.state.productsFromApi);
+      // console.log(this.state.orderIds);
 
       this.setState({ orderAddress: data.address });
     } catch (e) {
@@ -195,7 +192,6 @@ class Profile extends React.Component<Props, State> {
       <>
         {this.redirecting()}
         <Row>
-
           {/* profile details starts */}
           <h2 className="text-primary mb-4">Profile Details</h2>
           <Column size={4}>
@@ -208,7 +204,10 @@ class Profile extends React.Component<Props, State> {
                   width="200px"
                 />
 
-                <i className="fas fa-upload text-dark" onClick={this.iconClicked}></i>
+                <i
+                  className="fas fa-upload text-dark"
+                  onClick={this.iconClicked}
+                ></i>
                 {this.state.hide ? null : (
                   <ProfileUpload getData={this.getData} />
                 )}
@@ -347,7 +346,7 @@ class Profile extends React.Component<Props, State> {
           <Column size={8}>
             <div className="col-md-12 text-center mt-4">
               <h3>My orders</h3>
-              {this.state.productsFromApi.map((data: any, index: number) => (
+              {this.state.allProducts.map((data: any, index: number) => (
                 <Row>
                   <div className="bg-primary p-3">
                     <h3>Order {index + 1}</h3>
