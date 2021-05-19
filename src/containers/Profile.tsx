@@ -161,7 +161,7 @@ class Profile extends React.Component<Props, State> {
         {this.redirecting()}
         <Row>
           <h2 className="text-primary mb-4">Profile Details</h2>
-          <Column size={12}>
+          <Column size={4}>
             <div className="container user text-center">
               <div className="profileImage" id="profileImage">
                 <img src="" alt="Profile Image" className="img-thumbnail" />
@@ -169,85 +169,11 @@ class Profile extends React.Component<Props, State> {
               <h3>{this.state.userName}</h3>
               <h4>{this.state.userEmail}</h4>
             </div>
-          </Column>
 
-          <div className="col-md-12 text-center">
-            {this.state.Allproducts.map((data: any, index: number) => (
-              <Row>
-                <div className="bg-primary p-3">
-                  <h3>Order {index + 1}</h3>
-                  <h4>
-                    Order Date :{" "}
-                    {new Date(this.state.orderDate[index]).toLocaleString()}
-                  </h4>
-                  {data.map((data: any) => (
-                    <>
-                      <tr
-                        className={
-                          this.state.orderIds[index] == 0
-                            ? "bg-warning flexDisplay"
-                            : "bg-success flexDisplay"
-                        }
-                      >
-                        <td className="imageDivThum p-2 flex-auto flexDisplay">
-                          <img
-                            className="img-thumbnail"
-                            src={data.productImage}
-                          />
-                        </td>
-                        <td className="full-width col-4">
-                          <p>
-                            {" "}
-                            <b>Product Name</b>
-                          </p>
-                          {data.productName}
-                        </td>
-                        <td className="full-width col-2">
-                          <p>
-                            <b>Price Per Qty</b>
-                          </p>
-                          {data.productSalePrice}
-                        </td>
-                        <td className="full-width col-2">
-                          <p>
-                            <b>Product Quantity</b>
-                          </p>
-                          {data.productQty}
-                        </td>
-                        <td className="full-width col-2">
-                          <p>
-                            <b>Total Amount</b>
-                          </p>
-                          {data.productSalePrice * data.productQty}
-                        </td>
-                      </tr>
-                    </>
-                  ))}
-                  {this.state.orderIds[index] == 0 ? (
-                    <p className="bg-danger p-md-3">Order Cancelled</p>
-                  ) : (
-                    <button
-                      value={this.state.orderIds[index]}
-                      onClick={this.cancelOrder}
-                      className="btn btn-danger"
-                    >
-                      Cancel Order
-                    </button>
-                  )}
-                </div>
-              </Row>
-            ))}
-          </div>
-
-          <Column size={12}>
-            <h1 className="pt-5">Address</h1>
-            <div className="bg-light-gray text-center">
+            <h4 className="text-center">Address</h4>
+            <div className="showaddress">
               {this.state.orderAddress.map((data: any) => (
-                <div
-                  className="container order bg-gray m-5 p-3 text-capitalize"
-                  id={data.id}
-                  key={data.id}
-                >
+                <div className="" id={data.id} key={data.id}>
                   <h5>
                     {data.firstName !== null ? (
                       <p>
@@ -271,11 +197,9 @@ class Profile extends React.Component<Props, State> {
               ))}
             </div>
           </Column>
-        </Row>
-        <Row>
-          <Column size={2}></Column>
+
           <Column size={8}>
-            <form onSubmit={this.addAddress}>
+            <form onSubmit={this.addAddress} className="address">
               <div className="mb-3">
                 Address 1
                 <input
@@ -348,8 +272,8 @@ class Profile extends React.Component<Props, State> {
               <button className="btn btn-warning">Add Address</button>
             </form>
           </Column>
-          <Column size={2}></Column>
         </Row>
+       
       </>
     );
   }

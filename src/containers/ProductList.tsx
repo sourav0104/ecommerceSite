@@ -136,7 +136,7 @@ class ProductList extends React.PureComponent<Props, State> {
         {/* filter part starts */}
         <Column size={2}>
           <div className="container filter">
-            <h3 className="text-dark">Filter</h3>
+            <h3 className="text-dark">Filter By</h3>
             <div className={classes.root}>
               <Slider
                 max={100000}
@@ -148,14 +148,8 @@ class ProductList extends React.PureComponent<Props, State> {
               <h5 className="text-primary">
                 {this.state.value[0]}-{this.state.value[1]}
               </h5>
-              {/* <select name="sort" id="sort" onChange={this.sort}>
-                <option value="">-- SORT --</option>
-                <option value="PriceLowHigh">Price Low-High</option>
-                <option value="PriceHighLow">Price High-Low</option>
-                <option value="NameLowHigh">Name Low-High</option>
-                <option value="NameHighLow">Name High-Low</option>
-              </select> */}
-              <h4 className="sorting">Sorting</h4>
+             
+              <h4 className="sorting">Sort By</h4>
               <div className="form-check">
                 <input
                   className="form-check-input"

@@ -4,8 +4,12 @@ import { CartType } from "../types";
 import { Redirect, RouteComponentProps } from "react-router";
 import axios from "axios";
 import StorageService from "../services/StorageService";
+import { ToastContainer, toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CartActions from "../store/actions/CartActions";
+import { Dispatch } from "redux";
 
-type Props = { cartDetails: any } & RouteComponentProps;
+type Props = { cartDetails: any,reset:any } & RouteComponentProps;
 type State = {
   paymentMethod: string;
   firstName: string;
@@ -14,7 +18,7 @@ type State = {
   mobile: string;
   address: string;
   address2: string;
-  country: string;
+  city: string;
   state: string;
   zip: number;
   firstName1: string;
@@ -22,7 +26,7 @@ type State = {
   mobile1: string;
   address1: string;
   address21: string;
-  country1: string;
+  city1: string;
   state1: string;
   zip1: number;
   reRender: boolean;
@@ -37,7 +41,7 @@ class Checkout extends React.Component<Props, State> {
     mobile: "",
     address: "",
     address2: "",
-    country: "",
+    city: "",
     state: "",
     zip: 0,
     firstName1: "",
@@ -45,7 +49,7 @@ class Checkout extends React.Component<Props, State> {
     mobile1: "",
     address1: "",
     address21: "",
-    country1: "",
+    city1: "",
     state1: "",
     zip1: 0,
     reRender: false,
@@ -65,7 +69,6 @@ class Checkout extends React.Component<Props, State> {
     }
   };
 
-
   // if address same
   checkboxclick = (e: any) => {
     if (e.target.checked === true) {
@@ -75,7 +78,7 @@ class Checkout extends React.Component<Props, State> {
         mobile1: this.state.mobile,
         address1: this.state.address,
         address21: this.state.address2,
-        country1: this.state.country,
+        city1: this.state.city,
         state1: this.state.state,
         zip1: this.state.zip,
       });
@@ -86,7 +89,7 @@ class Checkout extends React.Component<Props, State> {
         mobile1: "",
         address1: "",
         address21: "",
-        country1: "",
+        city1: "",
         state1: "",
       });
     }
@@ -109,7 +112,7 @@ class Checkout extends React.Component<Props, State> {
         mobileNo: JSON.parse(this.state.mobile),
         line1: this.state.address,
         line2: this.state.address2,
-        city: this.state.country,
+        city: this.state.city,
         state: this.state.state,
         pincode: this.state.zip,
       };
@@ -119,6 +122,7 @@ class Checkout extends React.Component<Props, State> {
           headers: { Authorization: `Bearer ${token}` },
         })
       );
+
       return StorageService.getData("token").then((token) =>
         axios
           .post("http://localhost:5000/address", dataPass, {
@@ -126,7 +130,8 @@ class Checkout extends React.Component<Props, State> {
           })
           .then((res) =>
             res.status === 201
-              ? this.setState({ reRender: true })
+              ? (this.setState({ reRender: true }),
+                this.props.reset())
               : this.setState({ reRender: false })
           )
       );
@@ -134,7 +139,6 @@ class Checkout extends React.Component<Props, State> {
       alert("Invalid Form");
     }
   };
-
 
   // email validation
   emailValidate = () => {
@@ -159,6 +163,7 @@ class Checkout extends React.Component<Props, State> {
 
   redirecting = () => {
     if (this.state.reRender === true) {
+      toast("Order has been placed");
       return <Redirect to="/" />;
     }
   };
@@ -175,7 +180,7 @@ class Checkout extends React.Component<Props, State> {
             <label>
               Payment Method{" "}
               <select
-                className=""
+                className="form-select"
                 id="paymentMethod"
                 name="paymentMethod"
                 value={this.state.paymentMethod}
@@ -197,7 +202,6 @@ class Checkout extends React.Component<Props, State> {
               </select>
             </label>
           </div>
-
 
           {/* billing section starts */}
           <div className="row">
@@ -339,14 +343,14 @@ class Checkout extends React.Component<Props, State> {
                     <label>
                       City{" "}
                       <select
-                        className="custom-select d-block w-100 billForm"
-                        id="country"
-                        name="country"
-                        value={this.state.country}
+                        className="form-select"
+                        id="city"
+                        name="city"
+                        value={this.state.city}
                         required
                         onChange={(e: any) => {
                           this.setState({
-                            country: e.target.value,
+                            city: e.target.value,
                           });
                         }}
                         onBlur={this.blur}
@@ -364,7 +368,7 @@ class Checkout extends React.Component<Props, State> {
                     <label>
                       State
                       <select
-                        className="custom-select d-block w-100 billForm"
+                        className="form-select"
                         id="state"
                         name="state"
                         value={this.state.state}
@@ -408,16 +412,15 @@ class Checkout extends React.Component<Props, State> {
                 </div>
                 {/* billing section ends */}
 
-
                 <hr className="mb-4" />
-                <div className="custom-control checkbox">
+                <div className="form-check">
                   <input
                     type="checkbox"
-                    className="custom-control-input"
+                    className="form-check-input"
                     id="same-address"
                     onChange={this.checkboxclick}
                   />
-                  <label className="custom-control-label">
+                  <label className="form-check-label">
                     Shipping address is the same as my billing address
                   </label>
                 </div>
@@ -533,16 +536,16 @@ class Checkout extends React.Component<Props, State> {
                 <div className="row">
                   <div className="col-md-5 mb-3 contain">
                     <label>
-                      Country{" "}
+                      City{" "}
                       <select
-                        className="custom-select d-block w-100 billForm"
-                        id="country1"
-                        name="country1"
-                        value={this.state.country1}
+                        className="form-select"
+                        id="city1"
+                        name="city1"
+                        value={this.state.city1}
                         required
                         onChange={(e: any) => {
                           this.setState({
-                            country1: e.target.value,
+                            city1: e.target.value,
                           });
                         }}
                         onBlur={this.blur}
@@ -560,7 +563,7 @@ class Checkout extends React.Component<Props, State> {
                     <label>
                       State{" "}
                       <select
-                        className="custom-select d-block w-100 billForm"
+                        className="form-select"
                         id="state1"
                         name="state1"
                         value={this.state.state1}
@@ -604,13 +607,13 @@ class Checkout extends React.Component<Props, State> {
                 </div>
                 {/* shipping section ends */}
                 <hr className="mb-4" />
-               
-                <button
-                  className="btn btn-primary btn-lg btn-block"
-                  id="btn"
-                >
-                  Continue to checkout
-                </button>
+
+                <div>
+                  <button className="btn btn-primary btn-lg btn-block" id="btn">
+                    Continue to checkout
+                  </button>
+                  <ToastContainer /> 
+                </div>
               </form>
             </div>
 
@@ -660,5 +663,10 @@ const mapStoreToProps = (store: CartType) => {
     cartDetails: store,
   };
 };
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    reset: () => dispatch(CartActions.reset()),
+  };
+};
 
-export default connect(mapStoreToProps, null)(Checkout);
+export default connect(mapStoreToProps,mapDispatchToProps)(Checkout);

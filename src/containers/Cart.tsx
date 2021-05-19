@@ -82,6 +82,7 @@ class Cart extends React.Component<Props, State> {
           )
       );
     };
+    
     const redirecting = () => {
       if (this.state.reRender === true) {
         return <Redirect to="/checkout" />;

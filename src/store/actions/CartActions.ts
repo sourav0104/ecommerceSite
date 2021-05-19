@@ -3,6 +3,7 @@ import { ProductType } from "../../types";
 const ActionTypes = {
   ADD_TO_CART: "[Cart] Add to cart",
   REMOVE_ITEM: "[Cart] Remove item",
+  RESET: "[Cart] Reset",
 };
 
 const addToCart = (product: ProductType) => {
@@ -17,4 +18,10 @@ const removeItem = (id: number) => {
     id,
   };
 };
-export default { ActionTypes, addToCart, removeItem };
+
+const reset=()=>{
+  return {
+    type: ActionTypes.RESET,
+  };
+}
+export default { ActionTypes, addToCart, removeItem,reset };
