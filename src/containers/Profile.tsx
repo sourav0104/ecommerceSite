@@ -195,6 +195,8 @@ class Profile extends React.Component<Props, State> {
       <>
         {this.redirecting()}
         <Row>
+
+          {/* profile details starts */}
           <h2 className="text-primary mb-4">Profile Details</h2>
           <Column size={4}>
             <div className="container user text-center">
@@ -206,46 +208,18 @@ class Profile extends React.Component<Props, State> {
                   width="200px"
                 />
 
-                <i className="fas fa-upload" onClick={this.iconClicked}></i>
+                <i className="fas fa-upload text-dark" onClick={this.iconClicked}></i>
                 {this.state.hide ? null : (
                   <ProfileUpload getData={this.getData} />
                 )}
               </div>
-              <h3>{this.state.userName}</h3>
-              <h4>{this.state.userEmail}</h4>
-            </div>
-            <h4 className="text-center">Address</h4>
-            <div className="bg-light-gray text-center">
-              {this.state.orderAddress.map((data: any) => (
-                <div
-                  className="container order bg-gray m-5 p-3 text-capitalize"
-                  id={data.id}
-                  key={data.id}
-                >
-                  <h5>
-                    {data.firstName !== null ? (
-                      <p>
-                        NAME: {data.firstName} {data.lastName}
-                      </p>
-                    ) : null}
-                    {data.mobileNo !== null ? (
-                      <p>Mobile No: {data.mobileNo}</p>
-                    ) : null}
-                    ADDRESS: {data.line1}
-                    {data.line2} , {data.city}, {data.state} ,{data.pincode}
-                  </h5>
-                  <button
-                    onClick={this.delete}
-                    value={data.id}
-                    className="btn btn-danger"
-                  >
-                    DELETE
-                  </button>
-                </div>
-              ))}
+              <h3 className="text-dark">{this.state.userName}</h3>
+              <h4 className="text-dark">{this.state.userEmail}</h4>
             </div>
           </Column>
+          {/* profile details ends */}
 
+          {/* adding address section starts*/}
           <Column size={8}>
             <form onSubmit={this.addAddress} className="address">
               <div className="mb-3">
@@ -330,77 +304,118 @@ class Profile extends React.Component<Props, State> {
               <button className="btn btn-warning">Add Address</button>
             </form>
           </Column>
+          {/* adding address section ends */}
         </Row>
 
-        <Column size={12}>
-          <div className="col-md-12 text-center">
-            {this.state.productsFromApi.map((data: any, index: number) => (
-              <Row>
-                <div className="bg-primary p-3">
-                  <h3>Order {index + 1}</h3>
-                  <h4>
-                    Order Date :{" "}
-                    {new Date(this.state.orderDate[index]).toLocaleString()}
-                  </h4>
-                  {data.map((data:any) => (
-                    <>
-                      <tr
-                        className={
-                          this.state.orderIds[index] == 0
-                            ? "bg-warning flexDisplay"
-                            : "bg-success flexDisplay"
-                        }
-                      >
-                        <td className="imageDivThum p-2 flex-auto flexDisplay">
-                          <img
-                            className="img-thumbnail"
-                            src={data.productImage}
-                          />
-                        </td>
-                        <td className="full-width col-4">
-                          <p>
-                            {" "}
-                            <b>Product Name</b>
-                          </p>
-                          {data.productName}
-                        </td>
-                        <td className="full-width col-2">
-                          <p>
-                            <b>Price Per Qty</b>
-                          </p>
-                          {data.productSalePrice}
-                        </td>
-                        <td className="full-width col-2">
-                          <p>
-                            <b>Product Quantity</b>
-                          </p>
-                          {data.productQty}
-                        </td>
-                        <td className="full-width col-2">
-                          <p>
-                            <b>Total Amount</b>
-                          </p>
-                          {data.productSalePrice * data.productQty}
-                        </td>
-                      </tr>
-                    </>
-                  ))}
-                  {this.state.orderIds[index] == 0 ? (
-                    <p className="bg-danger p-md-3">Order Cancelled</p>
-                  ) : (
-                    <button
-                      value={this.state.orderIds[index]}
-                      onClick={this.cancelOrder}
-                      className="btn btn-danger"
-                    >
-                      Cancel Order
-                    </button>
-                  )}
+        <Row>
+          {/* display address section starts */}
+          <Column size={4}>
+            <h4 className="add">User Address</h4>
+            <div className="bg-light-gray text-center">
+              {this.state.orderAddress.map((data: any) => (
+                <div
+                  className="container order bg-gray m-5 p-3 text-capitalize"
+                  id={data.id}
+                  key={data.id}
+                >
+                  <h5 className="text-dark">
+                    {data.firstName !== null ? (
+                      <h4 className="text-dark">
+                        NAME: {data.firstName} {data.lastName}
+                      </h4>
+                    ) : null}
+                    {data.mobileNo !== null ? (
+                      <h4 className="text-dark">Mobile No: {data.mobileNo}</h4>
+                    ) : null}
+                    ADDRESS: {data.line1}
+                    {data.line2} , {data.city}, {data.state} ,{data.pincode}
+                  </h5>
+                  <button
+                    onClick={this.delete}
+                    value={data.id}
+                    className="btn btn-danger"
+                  >
+                    DELETE
+                  </button>
                 </div>
-              </Row>
-            ))}
-          </div>
-        </Column>
+              ))}
+            </div>
+          </Column>
+          {/* display address section ends*/}
+
+          {/* order section starts */}
+          <Column size={8}>
+            <div className="col-md-12 text-center mt-4">
+              <h3>My orders</h3>
+              {this.state.productsFromApi.map((data: any, index: number) => (
+                <Row>
+                  <div className="bg-primary p-3">
+                    <h3>Order {index + 1}</h3>
+                    <h4>
+                      Order Date :{" "}
+                      {new Date(this.state.orderDate[index]).toLocaleString()}
+                    </h4>
+                    {data.map((data: any) => (
+                      <>
+                        <tr
+                          className={
+                            this.state.orderIds[index] == 0
+                              ? "bg-warning flexDisplay"
+                              : "bg-success flexDisplay"
+                          }
+                        >
+                          <td className="imageDivThum p-2 flex-auto flexDisplay">
+                            <img
+                              className="img-thumbnail"
+                              src={data.productImage}
+                            />
+                          </td>
+                          <td className="full-width col-4">
+                            <p>
+                              {" "}
+                              <b>Product Name</b>
+                            </p>
+                            {data.productName}
+                          </td>
+                          <td className="full-width col-2">
+                            <p>
+                              <b>Price Per Qty</b>
+                            </p>
+                            {data.productSalePrice}
+                          </td>
+                          <td className="full-width col-2">
+                            <p>
+                              <b>Product Quantity</b>
+                            </p>
+                            {data.productQty}
+                          </td>
+                          <td className="full-width col-2">
+                            <p>
+                              <b>Total Amount</b>
+                            </p>
+                            {data.productSalePrice * data.productQty}
+                          </td>
+                        </tr>
+                      </>
+                    ))}
+                    {this.state.orderIds[index] == 0 ? (
+                      <p className="bg-danger p-md-3">Order Cancelled</p>
+                    ) : (
+                      <button
+                        value={this.state.orderIds[index]}
+                        onClick={this.cancelOrder}
+                        className="btn btn-danger"
+                      >
+                        Cancel Order
+                      </button>
+                    )}
+                  </div>
+                </Row>
+              ))}
+            </div>
+          </Column>
+          {/* order section ends */}
+        </Row>
       </>
     );
   }
